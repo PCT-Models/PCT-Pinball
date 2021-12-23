@@ -2,7 +2,7 @@
 """
 Created on Thu Jun 10 23:57:14 2021
 
-@author: gtaus
+@authors: Tauseef Gulrez and Warren Mansell
 """
 
 #!/usr/bin/env python
@@ -12,22 +12,6 @@ import gym, time, cv2, collections
 import numpy as np
 from pynput.keyboard import Key, Controller
 
-keyboard = Controller()
-key1 = "1"
-key2 = "2"
-key3 = "3"
-key4 = "4"
-key5 = "5"
-
-
-
-#
-# Test yourself as a learning agent! Pass environment name as a command-line argument, for example:
-#
-# python keyboard_agent.py SpaceInvadersNoFrameskip-v4
-#
-
-# env = gym.make('Pong-v4' if len(sys.argv)<2 else sys.argv[1])
 env = gym.make('VideoPinball-v0' if len(sys.argv)<2 else sys.argv[1])
 
 if not hasattr(env.action_space, 'n'):
@@ -94,24 +78,9 @@ def rollout(env):
         total_reward += r
         window_still_open = env.render()
         
-        
-        
-        
+  
         ##%% Image Processing
         img = env.render(mode="rgb_array")
-        
-        # # Continuous Throwing of Ball
-        # if nn == 0:
-        #     # time.sleep(5)
-        #     for iii in range(0,2,1):
-        #         human_agent_action = 5
-        # nn = nn + 1
-        
-        # if nn == 5:
-        #     # time.sleep(5)
-        #     for iii in range(0,2,1):
-        #         human_agent_action = 1
-        #         nn = 0
         
         # Continuous Throwing of Ball
         if (nn == 0) or (r == 0):
@@ -125,9 +94,6 @@ def rollout(env):
             for iii in range(0,2,1):
                 human_agent_action = 1
                 nn = 0
-        
-        
-        
         
         # Image Processing
         # For Ball to detect crop Image Just under the Bricks
@@ -192,18 +158,8 @@ def rollout(env):
             print(y_ball)
             
             
-            # # Perceptual Ray Tracing
-            # # Parameters
-            # A1, A2 = [x_ball, y_ball], [x_balli[0],y_balli[0]]
-            # B1, B2 = [-300,94], [300,94]
-            # R1, R2 = [140,94], [140,0]
-            # L1, L2 = [0,94], [0,-94]
-            # cv2.line(img_ball,B1,B2,(0,0,255), 1)
-            # cv2.line(img_ball,R1,R2,(0,0,255), 1)
-            # cv2.line(img_ball,L1,L2,(0,0,255), 1)
             base = x_ball
-            # Verifying the Center
-            # cv2.rectangle(img,(65,190), (95,180), (0,255,0), 1)
+            
             cntrx = 80
             
             if total_reward > -1:
@@ -251,23 +207,7 @@ def rollout(env):
                                       human_agent_action = 0
                                       itr = 0
         
-                # # Strategy to come in the Middle - Otherwise include a Velocity Control Reference
-                # # If Ball Going up Come in the Center
-                # if ((94-y_ball) - (94-y_balli[0])) > 0:
-                #             if (base - x_cent_plate1) < 0:
-                #                 human_agent_action = 3
-                #                 itr = itr + 1
-                #                 # if itr > 1 or abs(cpoint - x_cent_plate1) < dist_vib:
-                #                 if itr > 1 or abs(base - x_cent_plate1) < dist_vib:
-                #                       human_agent_action = 0
-                #                       itr = 0
-                #             if (base - x_cent_plate1) > 0:
-                #                     human_agent_action = 4
-                #                     itr = itr + 1
-                #                     # if itr > 1 or abs(cpoint - x_cent_plate1) < dist_vib:
-                #                     if itr > 1 or abs(base - x_cent_plate1) < dist_vib:
-                #                           human_agent_action = 0
-                #                           itr = 0
+                
         cv2.imshow('pctAgent', img)
         
         
